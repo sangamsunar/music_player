@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { createContext, useState } from "react";
 
+export const MusicContext = createContext();
 const songs = [
   {
     id: 1,
@@ -37,7 +38,7 @@ const songs = [
     duration: "2:41",
   },
 ];
-export const useMusic = () => {
+export const MusicProvider = ({ children }) => {
   const [allSongs, setAllSongs] = useState(songs);
   const [currentTrack, setCurrentTrack] = useState(songs[0]);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -81,22 +82,28 @@ export const useMusic = () => {
 
   const play = () => setIsPlaying(true);
   const pause = () => setIsPlaying(false);
-  return {
-    allSongs,
-    handlePlaySong,
-    currentTrackIndex,
-    currentTrack,
-    setCurrentTime,
-    currentTime,
-    formatTime,
-    duration,
-    setDuration,
-    nextTrack,
-    prevTrack,
-    isPlaying,
-    pause,
-    play,
-    volume,
-    setVolume,
-  };
+  return (
+    <MusicContext.Provider
+      value={{
+        allSongs,
+        handlePlaySong,
+        currentTrackIndex,
+        currentTrack,
+        setCurrentTime,
+        currentTime,
+        formatTime,
+        duration,
+        setDuration,
+        nextTrack,
+        prevTrack,
+        isPlaying,
+        pause,
+        play,
+        volume,
+        setVolume,
+      }}
+    >
+      {children}
+    </MusicContext.Provider>
+  );
 };
