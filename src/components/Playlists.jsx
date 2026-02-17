@@ -14,6 +14,7 @@ export const Playlists = () => {
     addSongToPlaylist,
     currentTrackIndex,
     handlePlaySong,
+    deletePlayList,
   } = useMusic();
 
   const filteredSongs = allSongs.filter((song) => {
@@ -47,6 +48,13 @@ export const Playlists = () => {
     const globalIndex = allSongs.findIndex((s) => s.id === song.id);
     handlePlaySong(song, globalIndex);
   };
+
+  const deletePlaylistConfirmation = (playlist) => {
+    if (window.confirm(`Are you sure you want to delete "${playlist.name}"?`)) {
+      deletePlayList(playlist.id);
+    }
+  };
+
   return (
     <div className="playlists">
       <h2>Playlists</h2>
@@ -78,7 +86,12 @@ export const Playlists = () => {
               <div className="playlist-header">
                 <h3>{playlist.name}</h3>
                 <div className="playlist-actions">
-                  <button className="delete-playlist-btn">Delete</button>
+                  <button
+                    className="delete-playlist-btn"
+                    onClick={() => deletePlaylistConfirmation(playlist)}
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
 
