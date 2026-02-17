@@ -1,6 +1,5 @@
-import { MusicContext } from "../contexts/MusicContext";
-import { useMusic } from "../hooks/useMusic";
-import { useRef, useEffect, useContext } from "react";
+import { useRef, useEffect } from "react";
+import { useMusic } from "../contexts/MusicContext";
 
 export const MusicPlayer = () => {
   const {
@@ -17,7 +16,7 @@ export const MusicPlayer = () => {
     play,
     volume,
     setVolume,
-  } = useContext(MusicContext);
+  } = useMusic();
   const audioRef = useRef(null);
 
   const handleTimeChange = (e) => {

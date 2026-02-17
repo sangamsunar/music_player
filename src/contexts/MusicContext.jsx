@@ -1,6 +1,5 @@
-import { createContext, useState } from "react";
-
-export const MusicContext = createContext();
+import { createContext, useContext, useState } from "react";
+const MusicContext = createContext();
 const songs = [
   {
     id: 1,
@@ -46,6 +45,7 @@ export const MusicProvider = ({ children }) => {
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
+  const [playlists, setPlaylists] = useState([]);
 
   const handlePlaySong = (song, index) => {
     setCurrentTrack(song);
@@ -80,6 +80,26 @@ export const MusicProvider = ({ children }) => {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  const createPlaylist = (name) => {
+    const newPlaylist = {
+      id: Date.now(),
+      name,
+      songs: [],
+    };
+    setPlaylists((prev) => [...prev, newPlaylist]);
+  };
+
+  const addSongToPlaylist = (playlistId, song) => {
+    setPlaylists((prev) =>
+      prev.map((playlist) => {
+        if (playlist.id === playlistId) {
+          return { ...playlist, songs: [...playlist.songs, song] };
+        } else {
+          return playlist;
+        }
+      }),
+    );
+  };
   const play = () => setIsPlaying(true);
   const pause = () => setIsPlaying(false);
   return (
@@ -101,9 +121,21 @@ export const MusicProvider = ({ children }) => {
         play,
         volume,
         setVolume,
+        createPlaylist,
+        playlists,
+        addSongToPlaylist,
+        setCurrentTrack,
       }}
     >
       {children}
     </MusicContext.Provider>
   );
+};
+
+export const useMusic = () => {
+  const contextValue = useContext(MusicContext);
+  if (!contextValue) {
+    throw new Error("useMusic must be used inside of MusicProvider ");
+  }
+  return contextValue;
 };

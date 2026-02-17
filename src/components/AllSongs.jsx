@@ -1,10 +1,7 @@
-import { useContext } from "react";
-import { useMusic } from "../hooks/useMusic";
-import { MusicContext } from "../contexts/MusicContext";
+import { useMusic } from "../contexts/MusicContext";
 
 export const AllSongs = () => {
-  const { allSongs, handlePlaySong, currentTractIndex } =
-    useContext(MusicContext);
+  const { allSongs, handlePlaySong, currentTrackIndex } = useMusic();
   return (
     <div className="all-songs">
       <h2>All Songs ({allSongs.length})</h2>
@@ -12,7 +9,7 @@ export const AllSongs = () => {
         {allSongs.map((song, key) => (
           <div
             key={key}
-            className={`song-card ${currentTractIndex === key ? "active" : ""}`}
+            className={`song-card ${currentTrackIndex === key ? "active" : ""}`}
             onClick={() => {
               handlePlaySong(song, key);
             }}
@@ -23,7 +20,7 @@ export const AllSongs = () => {
               <span className="song-duration">{song.duration}</span>
             </div>
             <div className="play-button">
-              {currentTractIndex === key ? "♪" : "▶︎"}
+              {currentTrackIndex === key ? "♪" : "▶︎"}
             </div>
           </div>
         ))}
