@@ -7,7 +7,7 @@ import { Navbar } from "./components/Navbar";
 function App() {
   return (
     <BrowserRouter>
-      <MusicProvider>
+      < MusicProvider >
         <div className="app">
           <Navbar />
           <main className="app-main">
@@ -22,8 +22,8 @@ function App() {
             </div>
           </main>
         </div>
-      </MusicProvider>
-    </BrowserRouter>
+      </MusicProvider >
+    </BrowserRouter >
   );
 }
 
